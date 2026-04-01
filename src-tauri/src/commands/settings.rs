@@ -27,7 +27,13 @@ fn merge_settings_for_save(
 /// 获取设置
 #[tauri::command]
 pub async fn get_settings() -> Result<crate::settings::AppSettings, String> {
-    Ok(crate::settings::get_settings_for_frontend())
+    let mut settings = crate::settings::get_settings_for_frontend();
+    // 若 intranetProxy 字段全为空，尝试从 config.json 回填（兼容手动写入的情况）
+    settings.intranet_proxy =
+        Some(crate::commands::intranet_proxy::effective_intranet_proxy_config(
+            settings.intranet_proxy.as_ref(),
+        ));
+    Ok(settings)
 }
 
 /// 保存设置

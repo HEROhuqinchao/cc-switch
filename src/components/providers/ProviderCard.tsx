@@ -53,6 +53,8 @@ interface ProviderCardProps {
   // OpenClaw: default model
   isDefaultModel?: boolean;
   onSetAsDefault?: () => void;
+  // 内网代理是否启用（仅 Claude，用于在当前生效卡片上展示 badge）
+  isIntranetProxyEnabled?: boolean;
 }
 
 const extractApiUrl = (provider: Provider, fallbackText: string) => {
@@ -117,6 +119,7 @@ export function ProviderCard({
   // OpenClaw: default model
   isDefaultModel,
   onSetAsDefault,
+  isIntranetProxyEnabled,
 }: ProviderCardProps) {
   const { t } = useTranslation();
 
@@ -304,6 +307,19 @@ export function ProviderCard({
                     ⭐
                   </span>
                 )}
+
+              {/* 仅当前生效的 Claude 供应商展示内网/外网配置 badge */}
+              {isActiveProvider && appId === "claude" && (
+                isIntranetProxyEnabled ? (
+                  <span className="inline-flex items-center rounded-md bg-orange-100 px-1.5 py-0.5 text-[10px] font-semibold text-orange-700 dark:bg-orange-900/40 dark:text-orange-300">
+                    内网配置
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center rounded-md bg-sky-100 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
+                    外网配置
+                  </span>
+                )
+              )}
             </div>
 
             {displayUrl && (

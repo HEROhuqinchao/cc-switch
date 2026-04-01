@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "prompt": {
+      "source": "aone-open-skill/prompt",
+      "sourceType": "internal",
+      "computedHash": "281c061dbf2ed5103d696cc68a956b3d2b2b40b411d00759e38e59d3de45469c"
+    }
+  }
+}

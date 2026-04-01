@@ -1,5 +1,10 @@
 import { invoke } from "@tauri-apps/api/core";
-import type { Settings, WebDavSyncSettings, RemoteSnapshotInfo } from "@/types";
+import type {
+  Settings,
+  WebDavSyncSettings,
+  RemoteSnapshotInfo,
+  IntranetProxyConfig,
+} from "@/types";
 import type { AppId } from "./types";
 
 export interface ConfigTransferResult {
@@ -211,6 +216,24 @@ export const settingsApi = {
   async setLogConfig(config: LogConfig): Promise<boolean> {
     return await invoke("set_log_config", { config });
   },
+
+  async saveIntranetProxyConfig(config: IntranetProxyConfig): Promise<void> {
+    return await invoke("save_intranet_proxy_config", { config });
+  },
+
+  async syncIntranetProxyFromFile(): Promise<IntranetProxyConfig> {
+    return await invoke("sync_intranet_proxy_from_file");
+  },
+
+  /**
+   * 清除 ~/.claude/settings.json 中的外网 Anthropic 环境变量
+   * （ANTHROPIC_AUTH_TOKEN / ANTHROPIC_API_KEY / ANTHROPIC_BASE_URL）
+   * 切换到内网模式时保存时调用
+   */
+  async clearClaudeSettingsEnv(): Promise<void> {
+    return await invoke("clear_claude_settings_env");
+  },
+
 };
 
 export interface RectifierConfig {

@@ -1102,6 +1102,10 @@ pub fn run() {
             commands::enter_lightweight_mode,
             commands::exit_lightweight_mode,
             commands::is_lightweight_mode,
+            // intranet proxy config
+            commands::save_intranet_proxy_config,
+            commands::sync_intranet_proxy_from_file,
+            commands::clear_claude_settings_env,
         ]);
 
     let app = builder

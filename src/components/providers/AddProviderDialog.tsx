@@ -1,10 +1,11 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FullScreenPanel } from "@/components/common/FullScreenPanel";
+import { IntranetProxyForm, type IntranetProxyFormRef } from "@/components/providers/IntranetProxyForm";
 import type { Provider, CustomEndpoint, UniversalProvider } from "@/types";
 import type { AppId } from "@/lib/api";
 import { universalProvidersApi } from "@/lib/api";
@@ -42,13 +43,27 @@ export function AddProviderDialog({
   const { t } = useTranslation();
   // OpenCode and OpenClaw don't support universal providers
   const showUniversalTab = appId !== "opencode" && appId !== "openclaw";
-  const [activeTab, setActiveTab] = useState<"app-specific" | "universal">(
-    "app-specific",
-  );
+  // Claude 额外显示「内网配置」Tab
+  const showIntranetTab = appId === "claude";
+  const [activeTab, setActiveTab] = useState<
+    "app-specific" | "universal" | "intranet"
+  >("app-specific");
   const [universalFormOpen, setUniversalFormOpen] = useState(false);
   const [selectedUniversalPreset, setSelectedUniversalPreset] =
     useState<UniversalProviderPreset | null>(null);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const intranetFormRef = useRef<IntranetProxyFormRef>(null);
+
+  // 内网 Tab 时点击保存：调用 IntranetProxyForm 的 save 并关闭面板
+  const handleIntranetSave = useCallback(async () => {
+    if (!intranetFormRef.current) return;
+    try {
+      await intranetFormRef.current.save();
+      onOpenChange(false);
+    } catch {
+      // save 内部已 toast.error，这里不再重复处理
+    }
+  }, [onOpenChange]);
 
   const handleUniversalProviderSave = useCallback(
     async (provider: UniversalProvider) => {
@@ -236,7 +251,26 @@ export function AddProviderDialog({
   );
 
   const footer =
-    !showUniversalTab || activeTab === "app-specific" ? (
+    activeTab === "intranet" ? (
+      // 内网配置 Tab：显示保存按钮，保存后关闭面板
+      <>
+        <Button
+          variant="outline"
+          onClick={() => onOpenChange(false)}
+          className="border-border/20 hover:bg-accent hover:text-accent-foreground"
+        >
+          {t("common.cancel")}
+        </Button>
+        <Button
+          onClick={() => void handleIntranetSave()}
+          disabled={intranetFormRef.current?.isSaving}
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          <Save className="h-4 w-4 mr-2" />
+          {t("common.save")}
+        </Button>
+      </>
+    ) : !showUniversalTab || activeTab === "app-specific" ? (
       <>
         <Button
           variant="outline"
@@ -284,15 +318,22 @@ export function AddProviderDialog({
       {showUniversalTab ? (
         <Tabs
           value={activeTab}
-          onValueChange={(v) => setActiveTab(v as "app-specific" | "universal")}
+          onValueChange={(v) =>
+            setActiveTab(v as "app-specific" | "universal" | "intranet")
+          }
         >
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList
+            className={`grid w-full mb-6 ${showIntranetTab ? "grid-cols-3" : "grid-cols-2"}`}
+          >
             <TabsTrigger value="app-specific">
               {t(`apps.${appId}`)} {t("provider.tabProvider")}
             </TabsTrigger>
             <TabsTrigger value="universal">
               {t("provider.tabUniversal")}
             </TabsTrigger>
+            {showIntranetTab && (
+              <TabsTrigger value="intranet">内网配置</TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="app-specific" className="mt-0">
@@ -309,6 +350,13 @@ export function AddProviderDialog({
           <TabsContent value="universal" className="mt-0">
             <UniversalProviderPanel />
           </TabsContent>
+
+          {showIntranetTab && (
+            /* forceMount 确保组件在 Dialog 打开时立即挂载，useQuery 和 useEffect 才能及时触发反写 */
+            <TabsContent value="intranet" className="mt-0 data-[state=inactive]:hidden" forceMount>
+              <IntranetProxyForm ref={intranetFormRef} />
+            </TabsContent>
+          )}
         </Tabs>
       ) : (
         // OpenCode/OpenClaw: directly show form without tabs

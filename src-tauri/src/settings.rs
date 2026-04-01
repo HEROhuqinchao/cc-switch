@@ -269,6 +269,45 @@ pub struct AppSettings {
     /// - Linux: "gnome-terminal" | "konsole" | "xfce4-terminal" | "alacritty" | "kitty" | "ghostty"
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub preferred_terminal: Option<String>,
+
+    // ===== 内网代理配置 =====
+    /// 内网 Claude Code Proxy 配置（仅 Claude 页面使用）
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub intranet_proxy: Option<IntranetProxyConfig>,
+}
+
+/// 内网 Claude Code Proxy 模型映射配置
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct IntranetProxyModelMapping {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub small_model: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub opus_model: Option<String>,
+}
+
+/// 内网 Claude Code Proxy 配置
+/// 保存在 ~/.cc-switch/settings.json；写入时同步覆盖 ~/.config/claude-code-proxy/config.json
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct IntranetProxyConfig {
+    /// 是否启用内网代理配置
+    #[serde(default)]
+    pub enabled: bool,
+    /// API Key
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub api_key: Option<String>,
+    /// Base URL
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub base_url: Option<String>,
+    /// 模型映射
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model_mapping: Option<IntranetProxyModelMapping>,
+    /// 安全校验 key（默认与 api_key 相同）
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub search_api_key: Option<String>,
 }
 
 fn default_show_in_tray() -> bool {
@@ -312,6 +351,7 @@ impl Default for AppSettings {
             backup_interval_hours: None,
             backup_retain_count: None,
             preferred_terminal: None,
+            intranet_proxy: None,
         }
     }
 }

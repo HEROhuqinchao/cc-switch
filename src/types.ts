@@ -307,6 +307,30 @@ export interface Settings {
   // Windows: "cmd" | "powershell" | "wt"
   // Linux: "gnome-terminal" | "konsole" | "xfce4-terminal" | "alacritty" | "kitty" | "ghostty"
   preferredTerminal?: string;
+
+  // ===== 内网代理配置 =====
+  // 内网 Claude Code Proxy 配置（仅 Claude 页面使用）
+  intranetProxy?: IntranetProxyConfig;
+}
+
+// ============================================================================
+// 内网代理配置（IntranetProxy）- 仅 Claude 页面使用
+// ============================================================================
+
+/// 内网 Claude Code Proxy 模型映射配置
+export interface IntranetProxyModelMapping {
+  smallModel?: string;
+  model?: string;
+  opusModel?: string;
+}
+
+/// 内网 Claude Code Proxy 配置
+export interface IntranetProxyConfig {
+  enabled: boolean;
+  apiKey?: string;
+  baseUrl?: string;
+  modelMapping?: IntranetProxyModelMapping;
+  searchApiKey?: string;
 }
 
 export interface SessionMeta {

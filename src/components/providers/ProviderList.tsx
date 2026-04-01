@@ -368,6 +368,7 @@ export function ProviderList({
                 onSetAsDefault={
                   onSetAsDefault ? () => onSetAsDefault(provider) : undefined
                 }
+                isIntranetProxyEnabled={settings?.intranetProxy?.enabled}
               />
             );
           })}
@@ -464,6 +465,8 @@ export function ProviderList({
           setPendingTestProvider(null);
         }}
       />
+
+      {/* 内网代理配置已移至供应商编辑/新增弹窗的「内网配置」Tab */}
     </div>
   );
 }
@@ -497,6 +500,8 @@ interface SortableProviderCardProps {
   // OpenClaw: default model
   isDefaultModel?: boolean;
   onSetAsDefault?: () => void;
+  // 内网代理是否启用
+  isIntranetProxyEnabled?: boolean;
 }
 
 function SortableProviderCard({
@@ -527,6 +532,7 @@ function SortableProviderCard({
   activeProviderId,
   isDefaultModel,
   onSetAsDefault,
+  isIntranetProxyEnabled,
 }: SortableProviderCardProps) {
   const {
     setNodeRef,
@@ -580,6 +586,7 @@ function SortableProviderCard({
         // OpenClaw: default model
         isDefaultModel={isDefaultModel}
         onSetAsDefault={onSetAsDefault}
+        isIntranetProxyEnabled={isIntranetProxyEnabled}
       />
     </div>
   );
