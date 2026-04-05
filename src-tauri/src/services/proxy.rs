@@ -132,9 +132,12 @@ impl ProxyService {
         &self,
         provider: &Provider,
     ) -> Result<(), String> {
-        let mut effective_settings =
-            build_effective_settings_with_common_config(self.db.as_ref(), &AppType::Claude, provider)
-                .map_err(|e| format!("构建 claude 有效配置失败: {e}"))?;
+        let mut effective_settings = build_effective_settings_with_common_config(
+            self.db.as_ref(),
+            &AppType::Claude,
+            provider,
+        )
+        .map_err(|e| format!("构建 claude 有效配置失败: {e}"))?;
         let (proxy_url, _) = self.build_proxy_urls().await?;
 
         Self::apply_claude_takeover_fields(&mut effective_settings, &proxy_url);
@@ -1945,6 +1948,7 @@ mod tests {
         dir: TempDir,
         original_home: Option<String>,
         original_userprofile: Option<String>,
+        original_test_home: Option<String>,
     }
 
     impl TempHome {
@@ -1952,14 +1956,17 @@ mod tests {
             let dir = TempDir::new().expect("failed to create temp home");
             let original_home = env::var("HOME").ok();
             let original_userprofile = env::var("USERPROFILE").ok();
+            let original_test_home = env::var("CC_SWITCH_TEST_HOME").ok();
 
             env::set_var("HOME", dir.path());
             env::set_var("USERPROFILE", dir.path());
+            env::set_var("CC_SWITCH_TEST_HOME", dir.path());
 
             Self {
                 dir,
                 original_home,
                 original_userprofile,
+                original_test_home,
             }
         }
     }
@@ -1974,6 +1981,11 @@ mod tests {
             match &self.original_userprofile {
                 Some(value) => env::set_var("USERPROFILE", value),
                 None => env::remove_var("USERPROFILE"),
+            }
+
+            match &self.original_test_home {
+                Some(value) => env::set_var("CC_SWITCH_TEST_HOME", value),
+                None => env::remove_var("CC_SWITCH_TEST_HOME"),
             }
         }
     }
