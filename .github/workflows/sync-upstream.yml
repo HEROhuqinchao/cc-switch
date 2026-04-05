@@ -1,0 +1,60 @@
+# .github/workflows/sync-upstream.yml
+
+name: Sync Upstream
+
+on:
+  schedule:
+    # 每天 UTC 00:00 运行（北京时间 08:00）
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      upstream_repo:
+        description: '上游仓库地址 (默认: farion1231/cc-switch)'
+        required: false
+        default: 'farion1231/cc-switch'
+      upstream_branch:
+        description: '上游分支 (默认: main)'
+        required: false
+        default: 'main'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: |
+          UPSTREAM_REPO="${{ github.event.inputs.upstream_repo || 'farion1231/cc-switch' }}"
+          git remote add upstream "https://github.com/${UPSTREAM_REPO}.git" || true
+          git fetch upstream
+
+      - name: Sync with upstream
+        run: |
+          UPSTREAM_BRANCH="${{ github.event.inputs.upstream_branch || 'main' }}"
+          CURRENT_BRANCH=$(git branch --show-current)
+
+          echo "Syncing upstream/${UPSTREAM_BRANCH} into ${CURRENT_BRANCH}..."
+
+          # 创建合并提交
+          git merge "upstream/${UPSTREAM_BRANCH}" --no-edit || {
+            echo "合并冲突，请手动解决"
+            exit 1
+          }
+
+      - name: Push changes
+        run: |
+          git push origin $(git branch --show-current)
