@@ -31,7 +31,7 @@ export interface ClaudeDesktopRoutePreset {
  */
 export const CLAUDE_DESKTOP_ROLE_ROUTE_IDS = {
   sonnet: "claude-sonnet-4-6",
-  opus: "claude-opus-4-7",
+  opus: "claude-opus-4-8",
   haiku: "claude-haiku-4-5",
 } as const;
 
@@ -152,7 +152,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
   {
     name: "Shengsuanyun",
     nameKey: "providerForm.presets.shengsuanyun",
-    websiteUrl: "https://www.shengsuanyun.com",
+    websiteUrl: "https://www.shengsuanyun.com/?from=CH_4HHXMRYF",
     apiKeyUrl: "https://www.shengsuanyun.com/?from=CH_4HHXMRYF",
     category: "aggregator",
     baseUrl: "https://router.shengsuanyun.com/api",
@@ -160,7 +160,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     apiFormat: "anthropic",
     modelRoutes: mappedRoutes(
       "anthropic/claude-sonnet-4.6",
-      "anthropic/claude-opus-4.7",
+      "anthropic/claude-opus-4.8",
       "anthropic/claude-haiku-4.5",
     ),
     isPartner: true,
@@ -250,9 +250,9 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     mode: "proxy",
     apiFormat: "gemini_native",
     modelRoutes: brandedRoutes(
-      "gemini-3.1-pro",
-      "gemini-3.1-pro",
-      "gemini-3-flash",
+      "gemini-3.5-flash",
+      "gemini-3.5-flash",
+      "gemini-3.5-flash",
     ),
     endpointCandidates: ["https://generativelanguage.googleapis.com"],
     icon: "gemini",
@@ -284,7 +284,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     apiFormat: "openai_responses",
     providerType: "codex_oauth",
     requiresOAuth: true,
-    modelRoutes: brandedRoutes("gpt-5.4", "gpt-5.4", "gpt-5.4-mini"),
+    modelRoutes: brandedRoutes("gpt-5.5", "gpt-5.5", "gpt-5.4-mini"),
     icon: "openai",
     iconColor: "#000000",
   },
@@ -304,7 +304,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     iconColor: "#1E88E5",
   },
   {
-    name: "OpenCode Go (DeepSeek V4 Flash)",
+    name: "OpenCode Go",
     websiteUrl: "https://opencode.ai",
     category: "third_party",
     baseUrl: "https://opencode.ai/zen/go",
@@ -327,7 +327,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     baseUrl: "https://open.bigmodel.cn/api/anthropic",
     mode: "proxy",
     apiFormat: "anthropic",
-    modelRoutes: brandedRoutes("glm-5", "glm-5", "glm-5"),
+    modelRoutes: brandedRoutes("glm-5.1", "glm-5.1", "glm-5.1"),
     icon: "zhipu",
     iconColor: "#0F62FE",
   },
@@ -339,7 +339,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     baseUrl: "https://api.z.ai/api/anthropic",
     mode: "proxy",
     apiFormat: "anthropic",
-    modelRoutes: brandedRoutes("glm-5", "glm-5", "glm-5"),
+    modelRoutes: brandedRoutes("glm-5.1", "glm-5.1", "glm-5.1"),
     icon: "zhipu",
     iconColor: "#0F62FE",
   },
@@ -447,9 +447,9 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     mode: "proxy",
     apiFormat: "anthropic",
     modelRoutes: brandedRoutes(
-      "ZhipuAI/GLM-5",
-      "ZhipuAI/GLM-5",
-      "ZhipuAI/GLM-5",
+      "ZhipuAI/GLM-5.1",
+      "ZhipuAI/GLM-5.1",
+      "ZhipuAI/GLM-5.1",
     ),
     icon: "modelscope",
     iconColor: "#624AFF",
@@ -888,7 +888,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     apiFormat: "anthropic",
     modelRoutes: mappedRoutes(
       "anthropic/claude-sonnet-4.6",
-      "anthropic/claude-opus-4.7",
+      "anthropic/claude-opus-4.8",
       "anthropic/claude-haiku-4.5",
       true,
     ),
@@ -905,7 +905,7 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     apiFormat: "anthropic",
     modelRoutes: mappedRoutes(
       "anthropic/claude-sonnet-4.6",
-      "anthropic/claude-opus-4.7",
+      "anthropic/claude-opus-4.8",
       "anthropic/claude-haiku-4.5",
       true,
     ),
@@ -920,9 +920,9 @@ export const claudeDesktopProviderPresets: ClaudeDesktopProviderPreset[] = [
     mode: "proxy",
     apiFormat: "anthropic",
     modelRoutes: brandedRoutes(
-      "zai-org/glm-5",
-      "zai-org/glm-5",
-      "zai-org/glm-5",
+      "zai-org/glm-5.1",
+      "zai-org/glm-5.1",
+      "zai-org/glm-5.1",
     ),
     endpointCandidates: ["https://api.novita.ai/anthropic"],
     icon: "novita",
