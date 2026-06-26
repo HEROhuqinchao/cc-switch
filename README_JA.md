@@ -10,6 +10,7 @@
 [![Downloads](https://img.shields.io/github/downloads/farion1231/cc-switch/total)](https://github.com/farion1231/cc-switch/releases/latest)
 
 <a href="https://trendshift.io/repositories/15372" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15372" alt="farion1231%2Fcc-switch | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+<a href="https://www.star-history.com/#farion1231/cc-switch&Date"><picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=farion1231/cc-switch&theme=dark" /><img alt="Star History Rank" src="https://api.star-history.com/badge?repo=farion1231/cc-switch" width="196" height="55" /></picture></a>
 
 ### 🌐 唯一の公式サイト：**[ccswitch.io](https://ccswitch.io)**
 
@@ -24,7 +25,7 @@
 <details open>
 <summary>クリックで折りたたむ</summary>
 
-[![Kimi K2.6](https://kimi-file.moonshot.cn/prod-chat-kimi/kfs/4/2/2026-06-08/1d8j61pt3v89kkekm5mbg)](https://platform.moonshot.cn/console?aff=cc-switch)
+[![Kimi K2.6](assets/partners/banners/kimi-banner-en.png)](https://platform.moonshot.cn/console?aff=cc-switch)
 
 Kimi K2.6 は Moonshot AI によるオープンソースのネイティブマルチモーダル・エージェントモデルで、長期的なコーディング、コード駆動設計、スウォーム（群）型タスクオーケストレーションのために構築されています。フロントエンド、DevOps、パフォーマンス最適化、フルスタックワークフローにわたる複雑なエンドツーエンドのエンジニアリング作業に対応できるよう設計されており、多数の専門エージェントを協調させて、実際のコーディングタスクの計画・実装・テスト・反復を行います。**[ここをクリックして Kimi を体験する](https://platform.moonshot.cn/console?aff=cc-switch)**
 
