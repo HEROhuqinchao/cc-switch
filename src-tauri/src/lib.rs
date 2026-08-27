@@ -41,7 +41,8 @@ mod usage_script;
 
 pub use app_config::{AppType, InstalledSkill, McpApps, McpServer, MultiAppConfig, SkillApps};
 pub use codex_config::{
-    get_codex_auth_path, get_codex_config_path, read_codex_live_settings, write_codex_live_atomic,
+    extract_codex_experimental_bearer_token, get_codex_auth_path, get_codex_config_path,
+    read_codex_live_settings, write_codex_live_atomic,
 };
 pub use commands::open_provider_terminal;
 pub use commands::*;
@@ -1660,6 +1661,7 @@ pub fn run() {
             // Generic managed auth commands
             commands::auth_start_login,
             commands::auth_poll_for_account,
+            commands::auth_cancel_login,
             commands::auth_list_accounts,
             commands::auth_get_status,
             commands::auth_remove_account,
